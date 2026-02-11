@@ -1,16 +1,16 @@
-import { useEffect, useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { createClientSchema, type CreateClientFormInput } from '../schemas'
-import { maskPhone, maskCPF, maskPlate } from '@/shared/utils'
-import type { Client } from '../types'
+import { useEffect, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { createClientSchema, type CreateClientFormInput } from '../schemas';
+import { maskPhone, maskCPF, maskPlate } from '@/shared/utils';
+import type { Client } from '../types';
 
 interface CreateClientModalProps {
-  isOpen: boolean
-  isLoading: boolean
-  onClose: () => void
-  onSubmit: (data: CreateClientFormInput) => Promise<void>
-  initialValues?: Client | undefined
+  isOpen: boolean;
+  isLoading: boolean;
+  onClose: () => void;
+  onSubmit: (data: CreateClientFormInput) => Promise<void>;
+  initialValues?: Client | undefined;
 }
 
 export function CreateClientModal({
@@ -30,13 +30,13 @@ export function CreateClientModal({
   } = useForm<CreateClientFormInput>({
     resolver: zodResolver(createClientSchema),
     mode: 'onChange',
-  })
+  });
 
   // Redefine o formulário e auto-foca no primeiro input quando modal abre ou valores iniciais mudam
   useEffect(() => {
     if (!isOpen) {
-      reset()
-      return
+      reset();
+      return;
     }
 
     if (initialValues) {
@@ -45,44 +45,43 @@ export function CreateClientModal({
         telefone: initialValues.telefone,
         cpf: initialValues.cpf,
         placaCarro: initialValues.placaCarro,
-      })
+      });
     }
 
     // Foca no primeiro input usando API do react-hook-form
-    setFocus('nome')
-
-  }, [isOpen, initialValues, reset, setFocus])
+    setFocus('nome');
+  }, [isOpen, initialValues, reset, setFocus]);
 
   const handleClose = useCallback(() => {
-    reset()
-    onClose()
-  }, [reset, onClose])
+    reset();
+    onClose();
+  }, [reset, onClose]);
 
   const onSubmitForm = handleSubmit(async (data) => {
     try {
-      await onSubmit(data)
-      reset()
-      onClose()
+      await onSubmit(data);
+      reset();
+      onClose();
     } catch {
       // Erro já é tratado no store
     }
-  })
+  });
 
   // Detectar ESC para fechar modal
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        handleClose()
+        handleClose();
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, handleClose])
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, handleClose]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   return (
     <div
@@ -96,7 +95,10 @@ export function CreateClientModal({
         className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        <h2 id="create-client-title" className="text-xl font-bold mb-4 text-gray-900 dark:text-white">
+        <h2
+          id="create-client-title"
+          className="text-xl font-bold mb-4 text-gray-900 dark:text-white"
+        >
           Novo Cliente
         </h2>
 
@@ -106,7 +108,10 @@ export function CreateClientModal({
               htmlFor="nome"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Nome <span className="text-red-500" aria-label="obrigatório">*</span>
+              Nome{' '}
+              <span className="text-red-500" aria-label="obrigatório">
+                *
+              </span>
             </label>
             <input
               id="nome"
@@ -130,15 +135,18 @@ export function CreateClientModal({
               htmlFor="telefone"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Telefone <span className="text-red-500" aria-label="obrigatório">*</span>
+              Telefone{' '}
+              <span className="text-red-500" aria-label="obrigatório">
+                *
+              </span>
             </label>
             <input
               id="telefone"
               type="tel"
               {...register('telefone', {
                 onChange: (e) => {
-                  const masked = maskPhone(e.target.value)
-                  setValue('telefone', masked, { shouldValidate: false, shouldDirty: true })
+                  const masked = maskPhone(e.target.value);
+                  setValue('telefone', masked, { shouldValidate: false, shouldDirty: true });
                 },
               })}
               aria-invalid={!!errors.telefone}
@@ -160,15 +168,18 @@ export function CreateClientModal({
               htmlFor="cpf"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              CPF <span className="text-red-500" aria-label="obrigatório">*</span>
+              CPF{' '}
+              <span className="text-red-500" aria-label="obrigatório">
+                *
+              </span>
             </label>
             <input
               id="cpf"
               type="text"
               {...register('cpf', {
                 onChange: (e) => {
-                  const masked = maskCPF(e.target.value)
-                  setValue('cpf', masked, { shouldValidate: false, shouldDirty: true })
+                  const masked = maskCPF(e.target.value);
+                  setValue('cpf', masked, { shouldValidate: false, shouldDirty: true });
                 },
               })}
               aria-invalid={!!errors.cpf}
@@ -190,15 +201,18 @@ export function CreateClientModal({
               htmlFor="placaCarro"
               className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
             >
-              Placa do Carro <span className="text-red-500" aria-label="obrigatório">*</span>
+              Placa do Carro{' '}
+              <span className="text-red-500" aria-label="obrigatório">
+                *
+              </span>
             </label>
             <input
               id="placaCarro"
               type="text"
               {...register('placaCarro', {
                 onChange: (e) => {
-                  const masked = maskPlate(e.target.value)
-                  setValue('placaCarro', masked, { shouldValidate: false, shouldDirty: true })
+                  const masked = maskPlate(e.target.value);
+                  setValue('placaCarro', masked, { shouldValidate: false, shouldDirty: true });
                 },
               })}
               aria-invalid={!!errors.placaCarro}
@@ -235,5 +249,5 @@ export function CreateClientModal({
         </form>
       </div>
     </div>
-  )
+  );
 }

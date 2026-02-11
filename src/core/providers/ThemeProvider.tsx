@@ -9,6 +9,7 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({ children }: ThemeProviderProps): JSX.Element {
   const [theme, setTheme] = useState<Theme>(() => {
+    
     // Tenta recuperar do localStorage
     const stored = localStorage.getItem(THEME_STORAGE_KEY) as Theme | null
     if (stored) return stored

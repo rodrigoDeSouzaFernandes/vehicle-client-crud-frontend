@@ -1,32 +1,24 @@
-import { memo, useMemo, useState } from 'react'
-import type { Client } from '../types'
+import { memo, useMemo, useState } from 'react';
+import type { Client } from '../types';
 
 interface ClientsTableProps {
-  clients: Client[]
-  isLoading: boolean
-  onEdit: (client: Client) => void
-  onDelete: (client: Client) => void
+  clients: Client[];
+  isLoading: boolean;
+  onEdit: (client: Client) => void;
+  onDelete: (client: Client) => void;
 }
 
-function ClientsTable({
-  clients,
-  isLoading,
-  onEdit,
-  onDelete,
-}: ClientsTableProps): JSX.Element {
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
+function ClientsTable({ clients, isLoading, onEdit, onDelete }: ClientsTableProps): JSX.Element {
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-  const sortedClients = useMemo(
-    () => {
-      const sorted = [...clients]
-      sorted.sort((a, b) => {
-        const comparison = a.nome.localeCompare(b.nome)
-        return sortOrder === 'asc' ? comparison : -comparison
-      })
-      return sorted
-    },
-    [clients, sortOrder]
-  )
+  const sortedClients = useMemo(() => {
+    const sorted = [...clients];
+    sorted.sort((a, b) => {
+      const comparison = a.nome.localeCompare(b.nome);
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+    return sorted;
+  }, [clients, sortOrder]);
 
   if (isLoading) {
     return (
@@ -35,20 +27,18 @@ function ClientsTable({
           <div key={i} className="h-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse" />
         ))}
       </div>
-    )
+    );
   }
 
   if (clients.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500 dark:text-gray-400 text-lg">
-          Nenhum cliente cadastrado
-        </p>
+        <p className="text-gray-500 dark:text-gray-400 text-lg">Nenhum cliente cadastrado</p>
         <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">
           Clique em "Novo Cliente" para começar
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -114,7 +104,7 @@ function ClientsTable({
         </tbody>
       </table>
     </div>
-  )
+  );
 }
 
-export default memo(ClientsTable)
+export default memo(ClientsTable);

@@ -1,12 +1,12 @@
-import { useEffect, memo, useCallback } from 'react'
-import type { Client } from '../types'
+import { useEffect, memo, useCallback } from 'react';
+import type { Client } from '../types';
 
 interface DeleteConfirmModalProps {
-  isOpen: boolean
-  client: Client | null
-  isLoading: boolean
-  onConfirm: () => Promise<void>
-  onCancel: () => void
+  isOpen: boolean;
+  client: Client | null;
+  isLoading: boolean;
+  onConfirm: () => Promise<void>;
+  onCancel: () => void;
 }
 
 function DeleteConfirmModal({
@@ -17,24 +17,24 @@ function DeleteConfirmModal({
   onCancel,
 }: DeleteConfirmModalProps): JSX.Element | null {
   const handleConfirm = useCallback(async () => {
-    await onConfirm()
-  }, [onConfirm])
+    await onConfirm();
+  }, [onConfirm]);
 
   // Detectar ESC para fechar modal
   useEffect(() => {
-    if (!isOpen) return
+    if (!isOpen) return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onCancel()
+        onCancel();
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [isOpen, onCancel])
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, onCancel]);
 
-  if (!isOpen || !client) return null
+  if (!isOpen || !client) return null;
 
   return (
     <div
@@ -82,7 +82,7 @@ function DeleteConfirmModal({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default memo(DeleteConfirmModal)
+export default memo(DeleteConfirmModal);

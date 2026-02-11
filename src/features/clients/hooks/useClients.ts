@@ -70,23 +70,23 @@ export function useClients() {
     [setLoading, setError, removeClient]
   )
 
-    const handleUpdateClient = useCallback(
-      async (id: string, data: CreateClientDTO) => {
-        setLoading(true)
-        setError(null)
-        try {
-          const updated = await updateClientAPI(id, data)
-          updateClient(id, updated)
-        } catch (err) {
-          const message = err instanceof Error ? err.message : 'Erro ao atualizar cliente'
-          setError(message)
-          throw err
-        } finally {
-          setLoading(false)
-        }
-      },
-      [setLoading, setError, updateClient]
-    )
+  const handleUpdateClient = useCallback(
+    async (id: string, data: CreateClientDTO) => {
+      setLoading(true)
+      setError(null)
+      try {
+        const updated = await updateClientAPI(id, data)
+        updateClient(id, updated)
+      } catch (err) {
+        const message = err instanceof Error ? err.message : 'Erro ao atualizar cliente'
+        setError(message)
+        throw err
+      } finally {
+        setLoading(false)
+      }
+    },
+    [setLoading, setError, updateClient]
+  )
 
   useEffect(() => {
     loadClients()

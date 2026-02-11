@@ -1,12 +1,12 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import ClientsTable from '../components/ClientsTable'
-import { Client } from '../types'
+import { describe, it, expect, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import ClientsTable from '../components/ClientsTable';
+import { Client } from '../types';
 
 describe('ClientsTable', () => {
-  const mockOnEdit = vi.fn()
-  const mockOnDelete = vi.fn()
+  const mockOnEdit = vi.fn();
+  const mockOnDelete = vi.fn();
 
   const mockClients: Client[] = [
     {
@@ -25,7 +25,7 @@ describe('ClientsTable', () => {
       placaCarro: 'XYZ-9876',
       createdAt: new Date(),
     },
-  ]
+  ];
 
   it('deve renderizar tabela com clientes', () => {
     render(
@@ -35,38 +35,28 @@ describe('ClientsTable', () => {
         onEdit={mockOnEdit}
         onDelete={mockOnDelete}
       />
-    )
+    );
 
-    expect(screen.getByText('Ana Silva')).toBeInTheDocument()
-    expect(screen.getByText('Zara Costa')).toBeInTheDocument()
-  })
+    expect(screen.getByText('Ana Silva')).toBeInTheDocument();
+    expect(screen.getByText('Zara Costa')).toBeInTheDocument();
+  });
 
   it('deve renderizar skeleton durante loading', () => {
     const { container } = render(
-      <ClientsTable
-        clients={[]}
-        isLoading={true}
-        onEdit={mockOnEdit}
-        onDelete={mockOnDelete}
-      />
-    )
+      <ClientsTable clients={[]} isLoading={true} onEdit={mockOnEdit} onDelete={mockOnDelete} />
+    );
 
-    const skeletons = container.querySelectorAll('.animate-pulse')
-    expect(skeletons.length).toBeGreaterThan(0)
-  })
+    const skeletons = container.querySelectorAll('.animate-pulse');
+    expect(skeletons.length).toBeGreaterThan(0);
+  });
 
   it('deve mostrar empty state quando não há clientes', () => {
     render(
-      <ClientsTable
-        clients={[]}
-        isLoading={false}
-        onEdit={mockOnEdit}
-        onDelete={mockOnDelete}
-      />
-    )
+      <ClientsTable clients={[]} isLoading={false} onEdit={mockOnEdit} onDelete={mockOnDelete} />
+    );
 
-    expect(screen.getByText('Nenhum cliente cadastrado')).toBeInTheDocument()
-  })
+    expect(screen.getByText('Nenhum cliente cadastrado')).toBeInTheDocument();
+  });
 
   it('deve ordenar clientes alfabeticamente', async () => {
     render(
@@ -76,15 +66,15 @@ describe('ClientsTable', () => {
         onEdit={mockOnEdit}
         onDelete={mockOnDelete}
       />
-    )
+    );
 
-    const rows = screen.getAllByRole('row')
-    expect(rows[1]).toHaveTextContent('Ana Silva')
-    expect(rows[2]).toHaveTextContent('Zara Costa')
-  })
+    const rows = screen.getAllByRole('row');
+    expect(rows[1]).toHaveTextContent('Ana Silva');
+    expect(rows[2]).toHaveTextContent('Zara Costa');
+  });
 
   it('deve chamar onDelete ao clicar em botão deletar', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
     render(
       <ClientsTable
         clients={mockClients}
@@ -92,16 +82,16 @@ describe('ClientsTable', () => {
         onEdit={mockOnEdit}
         onDelete={mockOnDelete}
       />
-    )
+    );
 
-    const deleteButtons = screen.getAllByRole('button', { name: /deletar/i })
-    await user.click(deleteButtons[0])
+    const deleteButtons = screen.getAllByRole('button', { name: /deletar/i });
+    await user.click(deleteButtons[0]);
 
-    expect(mockOnDelete).toHaveBeenCalledWith(mockClients[0])
-  })
+    expect(mockOnDelete).toHaveBeenCalledWith(mockClients[0]);
+  });
 
   it('deve chamar onEdit ao clicar em botão editar', async () => {
-    const user = userEvent.setup()
+    const user = userEvent.setup();
     render(
       <ClientsTable
         clients={mockClients}
@@ -109,13 +99,13 @@ describe('ClientsTable', () => {
         onEdit={mockOnEdit}
         onDelete={mockOnDelete}
       />
-    )
+    );
 
-    const editButtons = screen.getAllByRole('button', { name: /editar/i })
-    await user.click(editButtons[0])
+    const editButtons = screen.getAllByRole('button', { name: /editar/i });
+    await user.click(editButtons[0]);
 
-    expect(mockOnEdit).toHaveBeenCalledWith(mockClients[0])
-  })
+    expect(mockOnEdit).toHaveBeenCalledWith(mockClients[0]);
+  });
 
   it('deve exibir informações dos clientes corretamente', () => {
     render(
@@ -125,13 +115,13 @@ describe('ClientsTable', () => {
         onEdit={mockOnEdit}
         onDelete={mockOnDelete}
       />
-    )
+    );
 
     mockClients.forEach((client) => {
-      expect(screen.getByText(client.nome)).toBeInTheDocument()
-      expect(screen.getByText(client.telefone)).toBeInTheDocument()
-      expect(screen.getByText(client.cpf)).toBeInTheDocument()
-      expect(screen.getByText(client.placaCarro)).toBeInTheDocument()
-    })
-  })
-})
+      expect(screen.getByText(client.nome)).toBeInTheDocument();
+      expect(screen.getByText(client.telefone)).toBeInTheDocument();
+      expect(screen.getByText(client.cpf)).toBeInTheDocument();
+      expect(screen.getByText(client.placaCarro)).toBeInTheDocument();
+    });
+  });
+});
