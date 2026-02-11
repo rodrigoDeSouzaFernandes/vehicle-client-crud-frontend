@@ -11,7 +11,6 @@ export function ClientsPage(): JSX.Element {
   const {
     clients,
     isLoading,
-    error,
     handleCreateClient,
     handleUpdateClient,
     handleDeleteClient,
@@ -22,13 +21,6 @@ export function ClientsPage(): JSX.Element {
   const [clientToDelete, setClientToDelete] = useState<Client | null>(null)
   const [clientToEdit, setClientToEdit] = useState<Client | null>(null)
   const [isDeleteLoading, setIsDeleteLoading] = useState(false)
-
-  // Exibe toast de erro quando erro muda (evita toasts duplicados)
-  useEffect(() => {
-    if (error) {
-      addToast(error, 'error')
-    }
-  }, [error, addToast])
 
   const handleCreateSubmit = useCallback(
     async (data: CreateClientFormInput) => {
@@ -43,7 +35,7 @@ export function ClientsPage(): JSX.Element {
           setIsCreateModalOpen(false)
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Erro ao criar cliente'
+        const message = err instanceof Error ? err.message : 'Erro ao processar cliente'
         addToast(message, 'error')
       }
     },
