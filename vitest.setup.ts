@@ -1,11 +1,11 @@
-import '@testing-library/jest-dom'
-import { afterEach, vi } from 'vitest'
-import { cleanup } from '@testing-library/react'
+import '@testing-library/jest-dom';
+import { afterEach, vi } from 'vitest';
+import { cleanup } from '@testing-library/react';
 
 // Limpeza automática após cada teste
 afterEach(() => {
-  cleanup()
-})
+  cleanup();
+});
 
 // Mock window.matchMedia
 Object.defineProperty(window, 'matchMedia', {
@@ -20,4 +20,4 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-})
+});

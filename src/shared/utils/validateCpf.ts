@@ -1,29 +1,26 @@
 export function validateCPF(cpf: string): boolean {
-  if (!cpf) return false
+  if (!cpf) return false;
 
-  const cleanCPF = cpf.replace(/\D/g, '')
+  const cleanCPF = cpf.replace(/\D/g, '');
 
-  if (cleanCPF.length !== 11) return false
-  if (/^(\d)\1{10}$/.test(cleanCPF)) return false
+  if (cleanCPF.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(cleanCPF)) return false;
 
-  if (cleanCPF === '12345678909') return false
+  if (cleanCPF === '12345678909') return false;
 
-  let sum = 0
+  let sum = 0;
   for (let i = 0; i < 9; i++) {
-    sum += parseInt(cleanCPF.charAt(i)) * (10 - i)
+    sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
   }
-  let remainder = sum % 11
-  const digit1 = remainder < 2 ? 0 : 11 - remainder
+  let remainder = sum % 11;
+  const digit1 = remainder < 2 ? 0 : 11 - remainder;
 
-  sum = 0
+  sum = 0;
   for (let i = 0; i < 10; i++) {
-    sum += parseInt(cleanCPF.charAt(i)) * (11 - i)
+    sum += parseInt(cleanCPF.charAt(i)) * (11 - i);
   }
-  remainder = sum % 11
-  const digit2 = remainder < 2 ? 0 : 11 - remainder
+  remainder = sum % 11;
+  const digit2 = remainder < 2 ? 0 : 11 - remainder;
 
-  return (
-    digit1 === parseInt(cleanCPF.charAt(9)) &&
-    digit2 === parseInt(cleanCPF.charAt(10))
-  )
+  return digit1 === parseInt(cleanCPF.charAt(9)) && digit2 === parseInt(cleanCPF.charAt(10));
 }
