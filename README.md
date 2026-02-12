@@ -7,7 +7,7 @@ Uma aplicação frontend para gerenciamento de clientes e placas de veículos.
 ## Stack
 
 - **React 18** - UI Library
-- **TypeScript 5** - Type Safety
+- **TypeScript** - Type Safety
 - **Vite** - Fast Build Tool
 - **TailwindCSS** - Utility-first CSS
 - **Zustand** - State Management
