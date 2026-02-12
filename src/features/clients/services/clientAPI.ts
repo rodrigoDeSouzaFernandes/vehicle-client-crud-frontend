@@ -94,7 +94,7 @@ export async function deleteClientAPI(id: string): Promise<void> {
   });
 }
 
-// Reseta o banco de dados (útil para testes)
+// Reseta o banco de dados
 export function resetMockDatabase(): void {
   mockDatabase = [
     {

@@ -1,5 +1,6 @@
 import { memo, useMemo, useState } from 'react';
 import type { Client } from '../types';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface ClientsTableProps {
   clients: Client[];
@@ -52,7 +53,7 @@ function ClientsTable({ clients, isLoading, onEdit, onDelete }: ClientsTableProp
                 className="flex items-center gap-1 hover:text-gray-900 dark:hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded px-1"
                 aria-label={`Ordenar por nome (${sortOrder === 'asc' ? 'descendente' : 'ascendente'})`}
               >
-                Nome {sortOrder === 'asc' ? '↓' : '↑'}
+                Nome {sortOrder === 'asc' ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
               </button>
             </th>
             <th className="px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">
