@@ -1,7 +1,8 @@
-import { useTheme } from '@/core/providers'
+import { useTheme } from '@/core/providers';
+import { Moon, MoonIcon, MoonStar, Sun } from 'lucide-react';
 
 export function ThemeToggle(): JSX.Element {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <button
@@ -11,10 +12,14 @@ export function ThemeToggle(): JSX.Element {
       title={`Tema atual: ${theme === 'light' ? 'Claro' : 'Escuro'}`}
     >
       {theme === 'light' ? (
-        <span className="text-xl">🌙</span>
+        <span className="text-xl">
+          <MoonStar size={16} />
+        </span>
       ) : (
-        <span className="text-xl">☀️</span>
+        <span className="text-xl">
+          <Sun size={16} />
+        </span>
       )}
     </button>
-  )
+  );
 }

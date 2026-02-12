@@ -241,7 +241,7 @@ export function CreateClientModal({
             <button
               type="submit"
               disabled={!isValid || isSubmitting || isLoading}
-              className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-950"
+              className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-disabled disabled:cursor-not-allowed text-white rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-950"
             >
               {isLoading || isSubmitting ? 'Salvando...' : 'Salvar'}
             </button>
