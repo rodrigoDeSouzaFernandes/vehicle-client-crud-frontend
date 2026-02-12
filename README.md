@@ -2,7 +2,7 @@
 
 Uma aplicação frontend para gerenciamento de clientes e placas de veículos.
 
-## 📦 Stack Tecnológico
+## Stack
 
 - **React 18** - UI Library
 - **TypeScript 5** - Type Safety
@@ -14,7 +14,7 @@ Uma aplicação frontend para gerenciamento de clientes e placas de veículos.
 - **Vitest** - Unit Testing
 - **React Testing Library** - Component Testing
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Pré-requisitos
 
@@ -39,7 +39,7 @@ npm run dev
 ```
 
 
-## 🧪 Testes
+## Testes
 
 ```bash
 # Executar testes
