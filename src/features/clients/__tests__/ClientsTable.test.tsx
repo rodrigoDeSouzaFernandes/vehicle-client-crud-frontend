@@ -73,7 +73,7 @@ describe('ClientsTable', () => {
     expect(rows[2]).toHaveTextContent('Zara Costa');
   });
 
-  it('deve chamar onDelete ao clicar em botão deletar', async () => {
+  it('should call onDelete by clicking on delete button', async () => {
     const user = userEvent.setup();
     render(
       <ClientsTable
@@ -90,7 +90,7 @@ describe('ClientsTable', () => {
     expect(mockOnDelete).toHaveBeenCalledWith(mockClients[0]);
   });
 
-  it('deve chamar onEdit ao clicar em botão editar', async () => {
+  it('should call onEdit by clicking on edit button', async () => {
     const user = userEvent.setup();
     render(
       <ClientsTable
@@ -107,7 +107,7 @@ describe('ClientsTable', () => {
     expect(mockOnEdit).toHaveBeenCalledWith(mockClients[0]);
   });
 
-  it('deve exibir informações dos clientes corretamente', () => {
+  it('should render client info', () => {
     render(
       <ClientsTable
         clients={mockClients}

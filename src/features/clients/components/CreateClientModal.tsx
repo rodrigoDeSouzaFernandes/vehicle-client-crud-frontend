@@ -116,6 +116,7 @@ export function CreateClientModal({
             <input
               id="nome"
               type="text"
+              data-testid="input-nome"
               {...register('nome')}
               aria-invalid={!!errors.nome}
               aria-describedby={errors.nome ? 'nome-error' : undefined}
@@ -143,6 +144,7 @@ export function CreateClientModal({
             <input
               id="telefone"
               type="tel"
+              data-testid="input-telefone"
               {...register('telefone', {
                 onChange: (e) => {
                   const masked = maskPhone(e.target.value);
@@ -176,6 +178,7 @@ export function CreateClientModal({
             <input
               id="cpf"
               type="text"
+              data-testid="input-cpf"
               {...register('cpf', {
                 onChange: (e) => {
                   const masked = maskCPF(e.target.value);
@@ -209,6 +212,7 @@ export function CreateClientModal({
             <input
               id="placaCarro"
               type="text"
+              data-testid="input-placa"
               {...register('placaCarro', {
                 onChange: (e) => {
                   const masked = maskPlate(e.target.value);

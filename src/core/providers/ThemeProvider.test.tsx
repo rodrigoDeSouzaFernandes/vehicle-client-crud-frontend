@@ -1,118 +1,123 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { ThemeProvider } from './ThemeProvider'
-import { useTheme } from './ThemeContext'
+import { describe, it, expect, beforeEach } from 'vitest';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { ThemeProvider } from './ThemeProvider';
+import { useTheme } from './ThemeContext';
 
 function TestComponent(): JSX.Element {
-  const { theme, toggleTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div>
-      <p>Tema atual: {theme}</p>
-      <button onClick={toggleTheme}>Trocar tema</button>
+      <p>Current theme: {theme}</p>
+      <button onClick={toggleTheme}>Toggle theme</button>
     </div>
-  )
+  );
 }
 
 describe('ThemeContext and ThemeProvider', () => {
   beforeEach(() => {
-    localStorage.clear()
-    document.documentElement.classList.remove('dark')
-  })
+    localStorage.clear();
+    document.documentElement.classList.remove('dark');
+  });
 
-  it('deve inicia com tema light por padrão', () => {
+  it('should start with light theme by default', () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    )
+    );
 
-    expect(screen.getByText('Tema atual: light')).toBeInTheDocument()
-  })
+    expect(screen.getByText('Current theme: light')).toBeInTheDocument();
+  });
 
-  it('deve fazer toggle entre temas', async () => {
-    const user = userEvent.setup()
+  it('should toggle between light and dark themes', async () => {
+    const user = userEvent.setup();
+
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    )
+    );
 
-    expect(screen.getByText('Tema atual: light')).toBeInTheDocument()
+    const button = screen.getByRole('button', { name: /toggle theme/i });
 
-    const button = screen.getByRole('button', { name: /trocar tema/i })
-    await user.click(button)
+    await user.click(button);
 
     await waitFor(() => {
-      expect(screen.getByText('Tema atual: dark')).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText('Current theme: dark')).toBeInTheDocument();
+    });
 
-  it('deve persistir tema no localStorage', async () => {
-    const user = userEvent.setup()
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const button = screen.getByRole('button', { name: /trocar tema/i })
-    await user.click(button)
+    await user.click(button);
 
     await waitFor(() => {
-      expect(localStorage.getItem('@app:theme')).toBe('dark')
-    })
-  })
+      expect(screen.getByText('Current theme: light')).toBeInTheDocument();
+    });
+  });
 
-  it('deve restaurar tema do localStorage', () => {
-    localStorage.setItem('@app:theme', 'dark')
+  it('should persist theme in localStorage', async () => {
+    const user = userEvent.setup();
 
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    )
+    );
 
-    expect(screen.getByText('Tema atual: dark')).toBeInTheDocument()
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
-  })
+    const button = screen.getByRole('button', { name: /toggle theme/i });
 
-  it('deve adicionar class "dark" ao html ao trocar para dark', async () => {
-    const user = userEvent.setup()
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    expect(document.documentElement.classList.contains('dark')).toBe(false)
-
-    const button = screen.getByRole('button', { name: /trocar tema/i })
-    await user.click(button)
+    await user.click(button);
 
     await waitFor(() => {
-      expect(document.documentElement.classList.contains('dark')).toBe(true)
-    })
-  })
+      expect(localStorage.getItem('@app:theme')).toBe('dark');
+    });
+  });
 
-  it('deve remover class "dark" ao voltar para light', async () => {
-    localStorage.setItem('@app:theme', 'dark')
+  it('should restore theme from localStorage', () => {
+    localStorage.setItem('@app:theme', 'dark');
 
-    const user = userEvent.setup()
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    )
+    );
 
-    expect(document.documentElement.classList.contains('dark')).toBe(true)
+    expect(screen.getByText('Current theme: dark')).toBeInTheDocument();
+    expect(document.documentElement.classList.contains('dark')).toBe(true);
+  });
 
-    const button = screen.getByRole('button', { name: /trocar tema/i })
-    await user.click(button)
+  it('should add "dark" class to html when switched to dark', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    );
+
+    const button = screen.getByRole('button', { name: /toggle theme/i });
+    await user.click(button);
 
     await waitFor(() => {
-      expect(document.documentElement.classList.contains('dark')).toBe(false)
-    })
-  })
-})
+      expect(document.documentElement.classList.contains('dark')).toBe(true);
+    });
+  });
+
+  it('should remove "dark" class when switched back to light', async () => {
+    localStorage.setItem('@app:theme', 'dark');
+    const user = userEvent.setup();
+
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    );
+
+    const button = screen.getByRole('button', { name: /toggle theme/i });
+    await user.click(button);
+
+    await waitFor(() => {
+      expect(document.documentElement.classList.contains('dark')).toBe(false);
+    });
+  });
+});

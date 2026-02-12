@@ -1,39 +1,89 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { useClientsStore } from '../store/useClientsStore'
+import { describe, it, expect, beforeEach } from 'vitest';
+import { useClientsStore } from '../store/useClientsStore';
+import type { Client } from '../types';
 
-describe('useClientsStore (simples)', () => {
+describe('useClientsStore', () => {
+  let store: ReturnType<typeof useClientsStore.getState>;
+
   beforeEach(() => {
-    const store = useClientsStore.getState()
-    store.setClients([])
-    store.setError(null)
-    store.setLoading(false)
-  })
+    // Reset da store
+    useClientsStore.setState({
+      clients: [],
+      isLoading: false,
+      error: null,
+    });
+    store = useClientsStore.getState();
+  });
 
-  it('inicializa vazio e permite set/get', () => {
-    const store = useClientsStore.getState()
-    expect(store.clients).toEqual([])
-    expect(store.isLoading).toBe(false)
-    expect(store.error).toBeNull()
+  it('should initialize with empty state', () => {
+    store = useClientsStore.getState();
+    expect(store.clients).toEqual([]);
+    expect(store.isLoading).toBe(false);
+    expect(store.error).toBeNull();
+  });
 
-    const c1 = { id: '1', nome: 'B', telefone: '', cpf: '', placaCarro: '', createdAt: new Date() }
-    const c2 = { id: '2', nome: 'A', telefone: '', cpf: '', placaCarro: '', createdAt: new Date() }
+  it('should add clients and maintain alphabetical order', () => {
+    const c1: Client = {
+      id: '1',
+      nome: 'B',
+      telefone: '',
+      cpf: '',
+      placaCarro: '',
+      createdAt: new Date(),
+    };
+    const c2: Client = {
+      id: '2',
+      nome: 'A',
+      telefone: '',
+      cpf: '',
+      placaCarro: '',
+      createdAt: new Date(),
+    };
 
-    store.addClient(c1 as any)
-    store.addClient(c2 as any)
+    useClientsStore.getState().addClient(c1);
+    useClientsStore.getState().addClient(c2);
 
-    expect(store.clients.map((c) => c.nome)).toEqual(['A', 'B'])
+    store = useClientsStore.getState();
 
-    expect(store.getClientById('1')?.id).toBe('1')
+    expect(store.clients.map((c) => c.nome)).toEqual(['A', 'B']);
+    expect(store.getClientById('1')?.id).toBe('1');
+  });
 
-    store.removeClient('1')
-    expect(store.clients.some((c) => c.id === '1')).toBe(false)
+  it('should remove a client correctly', () => {
+    const client: Client = {
+      id: '1',
+      nome: 'B',
+      telefone: '',
+      cpf: '',
+      placaCarro: '',
+      createdAt: new Date(),
+    };
+    useClientsStore.getState().addClient(client);
 
-    store.setLoading(true)
-    expect(store.isLoading).toBe(true)
-    store.setLoading(false)
+    store = useClientsStore.getState();
+    expect(store.clients.length).toBe(1);
 
-    store.setError('err')
-    expect(store.error).toBe('err')
-    store.setError(null)
-  })
-})
+    useClientsStore.getState().removeClient('1');
+    store = useClientsStore.getState();
+    expect(store.clients.length).toBe(0);
+    expect(store.getClientById('1')).toBeUndefined();
+  });
+
+  it('should set loading and error states correctly', () => {
+    useClientsStore.getState().setLoading(true);
+    store = useClientsStore.getState();
+    expect(store.isLoading).toBe(true);
+
+    useClientsStore.getState().setLoading(false);
+    store = useClientsStore.getState();
+    expect(store.isLoading).toBe(false);
+
+    useClientsStore.getState().setError('Erro');
+    store = useClientsStore.getState();
+    expect(store.error).toBe('Erro');
+
+    useClientsStore.getState().setError(null);
+    store = useClientsStore.getState();
+    expect(store.error).toBeNull();
+  });
+});

@@ -1,20 +1,21 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { renderHook, act, waitFor } from '@testing-library/react';
+import { renderHook, waitFor } from '@testing-library/react';
+import { act } from 'react';
 import { useClients } from '../hooks/useClients';
 import * as api from '../services';
 
-describe('useClients hook (mocked)', () => {
+describe('useClients hook', () => {
   beforeEach(() => {
     vi.restoreAllMocks();
   });
 
-  it('carrega clientes e faz CRUD básico', async () => {
-    const fake = [
+  it('should load clients and perform basic CRUD', async () => {
+    const mockClients = [
       { id: '1', nome: 'A', telefone: '', cpf: '', placaCarro: '', createdAt: new Date() },
       { id: '2', nome: 'B', telefone: '', cpf: '', placaCarro: '', createdAt: new Date() },
     ];
 
-    vi.spyOn(api, 'fetchAllClients').mockResolvedValueOnce(fake);
+    vi.spyOn(api, 'fetchAllClients').mockResolvedValueOnce(mockClients);
     vi.spyOn(api, 'createClientAPI').mockImplementation(async (data) => ({
       id: '3',
       ...data,
@@ -24,7 +25,9 @@ describe('useClients hook (mocked)', () => {
 
     const { result } = renderHook(() => useClients());
 
-    await waitFor(() => result.current.clients.length === 2);
+    await waitFor(() => {
+      expect(result.current.clients.length).toBe(2);
+    });
     expect(result.current.clients.map((c) => c.nome)).toEqual(['A', 'B']);
 
     await act(async () => {
