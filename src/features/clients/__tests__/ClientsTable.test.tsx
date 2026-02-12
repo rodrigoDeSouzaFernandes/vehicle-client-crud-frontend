@@ -27,7 +27,7 @@ describe('ClientsTable', () => {
     },
   ];
 
-  it('deve renderizar tabela com clientes', () => {
+  it('should render table with clients', () => {
     render(
       <ClientsTable
         clients={mockClients}
@@ -41,7 +41,7 @@ describe('ClientsTable', () => {
     expect(screen.getByText('Zara Costa')).toBeInTheDocument();
   });
 
-  it('deve renderizar skeleton durante loading', () => {
+  it('should render skeleton while loading', () => {
     const { container } = render(
       <ClientsTable clients={[]} isLoading={true} onEdit={mockOnEdit} onDelete={mockOnDelete} />
     );
@@ -50,7 +50,7 @@ describe('ClientsTable', () => {
     expect(skeletons.length).toBeGreaterThan(0);
   });
 
-  it('deve mostrar empty state quando não há clientes', () => {
+  it('should show empty state when there is no client', () => {
     render(
       <ClientsTable clients={[]} isLoading={false} onEdit={mockOnEdit} onDelete={mockOnDelete} />
     );
@@ -58,7 +58,7 @@ describe('ClientsTable', () => {
     expect(screen.getByText('Nenhum cliente cadastrado')).toBeInTheDocument();
   });
 
-  it('deve ordenar clientes alfabeticamente', async () => {
+  it('should order clients by name', async () => {
     render(
       <ClientsTable
         clients={mockClients}

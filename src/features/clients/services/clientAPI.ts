@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from 'uuid'
-import type { Client, CreateClientDTO } from '../types'
+import { v4 as uuidv4 } from 'uuid';
+import type { Client, CreateClientDTO } from '../types';
 
 // Simular um "banco de dados" em memória
 let mockDatabase: Client[] = [
@@ -19,93 +19,79 @@ let mockDatabase: Client[] = [
     placaCarro: 'XYZ-9876',
     createdAt: new Date('2024-01-20'),
   },
-]
+];
 
 export async function fetchAllClients(): Promise<Client[]> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve([...mockDatabase].sort((a, b) => a.nome.localeCompare(b.nome)))
-    }, 500)
-  })
+      resolve([...mockDatabase].sort((a, b) => a.nome.localeCompare(b.nome)));
+    }, 500);
+  });
 }
 
 export async function fetchClientById(id: string): Promise<Client | null> {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const client = mockDatabase.find((c) => c.id === id)
-      resolve(client || null)
-    }, 300)
-  })
+      const client = mockDatabase.find((c) => c.id === id);
+      resolve(client || null);
+    }, 300);
+  });
 }
 
 export async function createClientAPI(data: CreateClientDTO): Promise<Client> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      // Simular erro aleatório (10% de chance) — desabilitado durante testes
-      if (process.env.NODE_ENV !== 'test' && Math.random() < 0.1) {
-        reject(new Error('Erro ao criar cliente. Tente novamente.'))
-        return
-      }
-
-      // Simular CPF duplicado
-      const cpfExists = mockDatabase.some((c) => c.cpf === data.cpf)
+      const cpfExists = mockDatabase.some((c) => c.cpf === data.cpf);
       if (cpfExists) {
-        reject(new Error('CPF já cadastrado no sistema'))
-        return
+        reject(new Error('CPF já cadastrado no sistema'));
+        return;
       }
 
       const newClient: Client = {
         id: uuidv4(),
         ...data,
         createdAt: new Date(),
-      }
+      };
 
-      mockDatabase.push(newClient)
-      resolve(newClient)
-    }, 800)
-  })
+      mockDatabase.push(newClient);
+      resolve(newClient);
+    }, 800);
+  });
 }
-
 
 export async function updateClientAPI(id: string, data: CreateClientDTO): Promise<Client> {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const idx = mockDatabase.findIndex((c) => c.id === id)
+      const idx = mockDatabase.findIndex((c) => c.id === id);
       if (idx === -1) {
-        reject(new Error('Cliente não encontrado'))
-        return
+        reject(new Error('Cliente não encontrado'));
+        return;
       }
 
-      const cpfExists = mockDatabase.some((c) => c.cpf === data.cpf && c.id !== id)
+      const cpfExists = mockDatabase.some((c) => c.cpf === data.cpf && c.id !== id);
       if (cpfExists) {
-        reject(new Error('CPF já cadastrado no sistema'))
-        return
+        reject(new Error('CPF já cadastrado no sistema'));
+        return;
       }
 
       const updated: Client = {
         ...mockDatabase[idx],
         ...data,
-      }
+      };
 
-      mockDatabase[idx] = updated
-      resolve(updated)
-    }, 500)
-  })
+      mockDatabase[idx] = updated;
+      resolve(updated);
+    }, 500);
+  });
 }
 
 export async function deleteClientAPI(id: string): Promise<void> {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(() => {
-      // Simular erro aleatório (5% de chance) — desabilitado durante testes
-      if (process.env.NODE_ENV !== 'test' && Math.random() < 0.05) {
-        reject(new Error('Erro ao deletar cliente. Tente novamente.'))
-        return
-      }
-
-      mockDatabase = mockDatabase.filter((c) => c.id !== id)
-      resolve()
-    }, 400)
-  })
+      mockDatabase = mockDatabase.filter((c) => c.id !== id);
+      resolve();
+    }, 400);
+  });
 }
 
 // Reseta o banco de dados (útil para testes)
@@ -127,5 +113,5 @@ export function resetMockDatabase(): void {
       placaCarro: 'XYZ-9876',
       createdAt: new Date('2024-01-20'),
     },
-  ]
+  ];
 }
