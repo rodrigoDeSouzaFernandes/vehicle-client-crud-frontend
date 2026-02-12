@@ -1,7 +1,7 @@
 export function validateCPF(cpf: string): boolean {
   if (!cpf) return false
 
-  const cleanCPF = cpf.replace(/[.-]/g, '')
+  const cleanCPF = cpf.replace(/\D/g, '')
 
   if (cleanCPF.length !== 11) return false
   if (/^(\d)\1{10}$/.test(cleanCPF)) return false
