@@ -1,5 +1,5 @@
 import { useTheme } from '@/core/providers';
-import { Moon, MoonIcon, MoonStar, Sun } from 'lucide-react';
+import { MoonStar, Sun } from 'lucide-react';
 
 export function ThemeToggle(): JSX.Element {
   const { theme, toggleTheme } = useTheme();
