@@ -2,6 +2,8 @@
 
 Uma aplicação frontend para gerenciamento de clientes e placas de veículos.
 
+![app](src/assets/app-screenshot.png)
+
 ## Stack
 
 - **React 18** - UI Library
