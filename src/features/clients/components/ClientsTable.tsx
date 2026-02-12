@@ -1,15 +1,23 @@
 import { memo, useMemo, useState } from 'react';
 import type { Client } from '../types';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { filterClients } from '@/shared/utils/filterClients';
 
 interface ClientsTableProps {
   clients: Client[];
   isLoading: boolean;
   onEdit: (client: Client) => void;
   onDelete: (client: Client) => void;
+  filter?: string;
 }
 
-function ClientsTable({ clients, isLoading, onEdit, onDelete }: ClientsTableProps): JSX.Element {
+function ClientsTable({
+  clients,
+  isLoading,
+  filter = '',
+  onEdit,
+  onDelete,
+}: ClientsTableProps): JSX.Element {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
   const sortedClients = useMemo(() => {
@@ -20,6 +28,10 @@ function ClientsTable({ clients, isLoading, onEdit, onDelete }: ClientsTableProp
     });
     return sorted;
   }, [clients, sortOrder]);
+
+  const filteredClients = useMemo(() => {
+    return filterClients(sortedClients, filter);
+  }, [filter, sortedClients]);
 
   if (isLoading) {
     return (
@@ -71,7 +83,7 @@ function ClientsTable({ clients, isLoading, onEdit, onDelete }: ClientsTableProp
           </tr>
         </thead>
         <tbody>
-          {sortedClients.map((client) => (
+          {filteredClients.map((client) => (
             <tr
               key={client.id}
               className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
