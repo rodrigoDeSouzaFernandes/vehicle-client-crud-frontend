@@ -54,6 +54,20 @@ function ClientsTable({
     );
   }
 
+  if (filteredClients.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">
+          Nenhum cliente encontrado
+        </p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">
+          Tente ajustar o filtro. Busque pelo nome, telefone, CPF ou placa para encontrar o
+          cliente desejado.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
       <table className="w-full text-sm">
